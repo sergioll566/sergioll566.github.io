@@ -8,11 +8,12 @@ class LoginScreen{
         this.sound_success = new Audio("audios/fondo/d9.mp3");
         // this.sound_erro.load();
         this.sound_erro.volume = 0.5;
+        this.player_screen = document.getElementById("player_screen");
         this.init_events();
+
     }
 
     init_events(){
-        
         this.btn_login.addEventListener("click",()=>this.change_to_main())
     }
     validate_login(input){
@@ -21,11 +22,12 @@ class LoginScreen{
     change_to_main(){
             const result = this.validate_login(this.input_login)
             if (result){
-                this.screen.style.transform = "translateX(100%)"
-                this.screen.style.backgroundColor = "transparent"
+                this.player_screen.style.display = "grid"
+                // this.screen.style.transform = "translateX(100%)"
+                // this.screen.style.backgroundColor = "transparent"
                 this.sound_success.load()
                 this.sound_success.play()
-                setTimeout(()=>this.screen.style.display = "none",400)
+                // setTimeout(()=>this.screen.style.display = "none",400)
                 
             }
             else{
@@ -45,6 +47,8 @@ class Message_music{
     constructor(){
         this.label_message = document.getElementById("player_message");
         this.is_maximized = false;
+        this.sound_click = new Audio("audios/fondo/click2.mp3");
+        this.sound_click.volume = 0.3;
         this.init_events();
 
     }
@@ -53,13 +57,15 @@ class Message_music{
         this.label_message.addEventListener('touchstart', ()=> {
             this.intervalo = setInterval(()=> {
               if (this.is_maximized == false) {
-                  this.label_message.style.position = "absolute";
-                  this.label_message.style.bottom = "18%";
+                //   this.label_message.style.position = "absolute";
+                //   this.label_message.style.bottom = "18%";
                   this.label_message.style.width = "90%";
                   this.label_message.style.height = "50%";
                   this.label_message.style.alignItems = "center";
                   this.label_message.style.maxHeight = "50%";
                   this.is_maximized = true;
+                  this.sound_click.load()
+                  this.sound_click.play()
               }
             }, 500); // Intervalo de tiempo en milisegundos
           });
@@ -67,12 +73,12 @@ class Message_music{
           this.label_message.addEventListener('touchend', ()=> {
             clearInterval(this.intervalo);
             this.is_maximized = false;
-            this.label_message.style.position = "relative";
+            // this.label_message.style.position = "relative";
             this.label_message.style.width = "90vw";
-            this.label_message.style.bottom = "0";
+            // this.label_message.style.bottom = "0";
             this.label_message.style.alignItems = "flex-start";
-            this.label_message.style.height = "25%";
-            this.label_message.style.maxHeight = "25%";
+            this.label_message.style.height = "15%";
+            this.label_message.style.maxHeight = "15%";
           });    
     }
 
@@ -89,8 +95,6 @@ class Player{
         this.title = document.getElementById("player_title");
         this.message = document.getElementById("player_message");
         this.is_playing = false;
-        this.sound_click = new Audio("audios/fondo/click2.mp3");
-        this.sound_click.volume = 0.1;
         this.progress_bar = document.getElementById("player_duration");
         
         this.songs = [
@@ -171,8 +175,7 @@ class Player{
         let play_btn = document.getElementById('btn_play');
         play_btn.addEventListener("touchstart",()=>{
             this.toogle_play()
-            this.sound_click.load();
-            this.sound_click.play();
+            
 
         });
 
@@ -180,14 +183,12 @@ class Player{
         let next_btn = document.getElementById('btn_next');
         
         next_btn.addEventListener("touchstart",()=>{this.change_music(1)
-            this.sound_click.load();
-            this.sound_click.play();
+            
         });
         // button prev
         let prev_btn = document.getElementById('btn_prev');
         prev_btn.addEventListener("touchstart",()=>{this.change_music(-1)
-            this.sound_click.load();
-            this.sound_click.play();
+            
         });
 
         // end music
@@ -269,14 +270,13 @@ class PlayerScreen{
         }
         if (show){
             this.help_message.style.transform = "translateX(0)"
-            
-            
+            this.sound_click.load()
+            this.sound_click.play();            
         }
         else{
             this.help_message.style.transform = "translateX(-100%)"
         }
-        this.sound_click.load()
-        this.sound_click.play();
+        
         this.is_show_message = show
     }
     init_events(){
