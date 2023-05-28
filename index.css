@@ -226,10 +226,10 @@ main{
     transition: 0.2s;
     
 }
-#player_controls button:active{
+/* #player_controls button:active{
     background-color: var(--three_color);
     transform: scale(1.1);
-}
+} */
 #player_controls button img{
     width: 100%;
     height: 100%;

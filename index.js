@@ -68,7 +68,7 @@ class Message_music{
             clearInterval(this.intervalo);
             this.is_maximized = false;
             this.label_message.style.position = "relative";
-            this.label_message.style.width = "100%";
+            this.label_message.style.width = "90vw";
             this.label_message.style.bottom = "0";
             this.label_message.style.alignItems = "flex-start";
             this.label_message.style.height = "25%";
@@ -169,21 +169,23 @@ class Player{
 
         // play button
         let play_btn = document.getElementById('btn_play');
-        play_btn.addEventListener("click",()=>{this.toogle_play()
+        play_btn.addEventListener("touchstart",()=>{
+            this.toogle_play()
             this.sound_click.load();
             this.sound_click.play();
+
         });
 
         //next button
         let next_btn = document.getElementById('btn_next');
         
-        next_btn.addEventListener("click",()=>{this.change_music(1)
+        next_btn.addEventListener("touchstart",()=>{this.change_music(1)
             this.sound_click.load();
             this.sound_click.play();
         });
         // button prev
         let prev_btn = document.getElementById('btn_prev');
-        prev_btn.addEventListener("click",()=>{this.change_music(-1)
+        prev_btn.addEventListener("touchstart",()=>{this.change_music(-1)
             this.sound_click.load();
             this.sound_click.play();
         });
