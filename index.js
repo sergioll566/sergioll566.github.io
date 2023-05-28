@@ -36,7 +36,7 @@ class LoginScreen{
                 this.btn_login.classList.add('btn-animate')
                 setTimeout(()=>{
                                     this.btn_login.classList.remove('btn-animate')
-                                },200)
+                },200)
             }
     }
 }
@@ -194,21 +194,27 @@ class Player{
         // end music
         this.current_audio.addEventListener("ended",()=>this.change_music(1))
     
-        this.current_audio.addEventListener("timeupdate",(e)=>this.update_time(e));
+        this.current_audio.addEventListener("timeupdate",()=>this.update_time());
         
         this.progress_bar.addEventListener("input",()=>{
-            var progress = this.progress_bar.value
-            var duration = this.current_audio.duration
-            let current_time = (progress / 100) * duration;
-            this.current_audio.currentTime = current_time;
+            var progress = this.progress_bar.value / 100
+            // var duration = this.current_audio.duration
+            // console.log(duration)
+            // let current_time = (progress / 100) * duration;
+            this.current_audio.currentTime = progress * this.current_audio.duration;
         })
     }
 
     update_time(){
-        let duration = this.current_audio.duration
-        let current_time = this.current_audio.currentTime;
-        let progress = (current_time / duration) * 100;
-        this.progress_bar.value = progress
+        // let duration = this.current_audio.duration
+    
+        let current_time = this.current_audio.currentTime / this.current_audio.duration * 100;
+        // let progress = (current_time / duration) * 100;
+        
+        this.progress_bar.value = current_time
+           
+        
+        
     }
 
     toogle_play(){
@@ -235,8 +241,9 @@ class Player{
 
     load_music(song){
         this.current_audio.src = song.path;
-        // this.current_audio.load();
+        this.current_audio.load();
         // change screen
+        // this.progress_bar.max = this.current_audio.duration
         this.image.src = song.image;
         this.title.textContent = song.title;
         this.message.textContent = song.message;
