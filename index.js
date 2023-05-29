@@ -97,7 +97,9 @@ class Message_music{
 
 class Player{
     constructor(){
-        this.current_audio = new Audio();
+        // this.current_audio = new Audio();
+        this.current_audio = document.getElementById("musica");
+        //this.current_audio.duration
         this.current_music_index = 0;
         this.image = document.getElementById("player_img");
         this.title = document.getElementById("player_title");
