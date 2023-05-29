@@ -27,6 +27,7 @@ class LoginScreen{
                 this.candado.style.animation = "desbloquear_candado 1s linear 0s 1"
                 // setTimeout(()=>this.screen.style.display = "none",400)
                 setTimeout(()=>{
+                    this.candado.src = "imagenes/iconos/candado_abierto.png"
                     this.player_screen.style.display = "grid"
                 // this.screen.style.transform = "translateX(100%)"
                 // this.screen.style.backgroundColor = "transparent"
@@ -105,7 +106,7 @@ class Player{
         this.title = document.getElementById("player_title");
         this.message = document.getElementById("player_message");
         this.is_playing = false;
-        this.limit_time_clicks = 900; // in milliseconds
+        this.limit_time_clicks = 1000; // in milliseconds
         this.ready_to_click = true
         this.is_changing = false
         this.min_total_label  = document.getElementById("min_total_label");
@@ -171,20 +172,20 @@ class Player{
             }
         ]; 
 
-        this.songs = [
-            {
-                path:"audios/canciones/enamorado_tuyo.mp3",
-                image:"imagenes/Enamorado tuyo.jpg",
-                title:'Enamorado tuyo',
-                message:"PON UN MENSAJE AQUÍ O TE PEGO >:("
-            },
-            {
-                path:"audios/canciones/algo_con_tigo.mp3",
-                image:"imagenes/El Cinturón Gris.jpg",
-                title:'El Cinturón Gris',
-                message:"mensaje que aun no haz puesto >:( deja de codificar pedazo de sergio >:("
-            },
-        ]
+        // this.songs = [
+        //     {
+        //         path:"audios/canciones/enamorado_tuyo.mp3",
+        //         image:"imagenes/Enamorado tuyo.jpg",
+        //         title:'Enamorado tuyo',
+        //         message:"PON UN MENSAJE AQUÍ O TE PEGO >:("
+        //     },
+        //     {
+        //         path:"audios/canciones/algo_con_tigo.mp3",
+        //         image:"imagenes/El Cinturón Gris.jpg",
+        //         title:'El Cinturón Gris',
+        //         message:"mensaje que aun no haz puesto >:( deja de codificar pedazo de sergio >:("
+        //     },
+        // ]
 
         this.init_events();
         this.load_music(this.songs[0]);
