@@ -30,7 +30,7 @@ class LoginScreen{
                     this.player_screen.style.display = "grid"
                 // this.screen.style.transform = "translateX(100%)"
                 // this.screen.style.backgroundColor = "transparent"
-                this.sound_success.load()
+                // this.sound_success.load()
                 this.sound_success.play()
                 this.btn_login.style.transform = "scale(0)"
                 },1010)
@@ -171,6 +171,21 @@ class Player{
             }
         ]; 
 
+        this.songs = [
+            {
+                path:"audios/canciones/enamorado_tuyo.mp3",
+                image:"imagenes/Enamorado tuyo.jpg",
+                title:'Enamorado tuyo',
+                message:"PON UN MENSAJE AQUÍ O TE PEGO >:("
+            },
+            {
+                path:"audios/canciones/algo_con_tigo.mp3",
+                image:"imagenes/El Cinturón Gris.jpg",
+                title:'El Cinturón Gris',
+                message:"mensaje que aun no haz puesto >:( deja de codificar pedazo de sergio >:("
+            },
+        ]
+
         this.init_events();
         this.load_music(this.songs[0]);
         this.progress_bar.value = 0;
@@ -217,6 +232,12 @@ class Player{
         })
     
         this.current_audio.addEventListener("timeupdate",()=>this.update_time());
+        this.current_audio.addEventListener("loadeddata",()=>{
+            this.min_total_label.textContent = `${(this.current_audio.duration/60).toFixed(2)}`.replace(".",":")
+            if (this.min_total_label.textContent == "NaN"){
+                this.min_total_label.textContent = "0:00"
+        }
+        });
         
         this.progress_bar.addEventListener("input",()=>{
             var progress = this.progress_bar.value // 100
@@ -232,10 +253,7 @@ class Player{
 
     update_time(){
         this.progress_bar.max = this.current_audio.duration
-        this.min_total_label.textContent = `${(this.current_audio.duration/60).toFixed(2)}`.replace(".",":")
-        if (this.min_total_label.textContent == "NaN"){
-            this.min_total_label.textContent = "0:00"
-        }
+        
         let current_time = this.current_audio.currentTime// this.current_audio.duration * 100;
         this.min_actual_label.textContent = `${(this.current_audio.currentTime/60).toFixed(2)}`.replace(".",":")        
         this.progress_bar.value = current_time
