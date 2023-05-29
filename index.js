@@ -7,6 +7,7 @@ class LoginScreen{
         this.sound_erro = new Audio("audios/fondo/error.mp3");
         this.sound_success = new Audio("audios/fondo/d9.mp3");
         // this.sound_erro.load();
+        this.candado = document.getElementById("candado");
         this.sound_erro.volume = 0.5;
         this.player_screen = document.getElementById("player_screen");
         this.init_events();
@@ -14,7 +15,7 @@ class LoginScreen{
     }
 
     init_events(){
-        this.btn_login.addEventListener("click",()=>this.change_to_main())
+        this.btn_login.addEventListener("touchstart",()=>this.change_to_main())
     }
     validate_login(input){
         return input.value.toLowerCase() == this.key_word.toLowerCase()
@@ -22,12 +23,17 @@ class LoginScreen{
     change_to_main(){
             const result = this.validate_login(this.input_login)
             if (result){
-                this.player_screen.style.display = "grid"
+                
+                this.candado.style.animation = "desbloquear_candado 1s linear 0s 1"
+                // setTimeout(()=>this.screen.style.display = "none",400)
+                setTimeout(()=>{
+                    this.player_screen.style.display = "grid"
                 // this.screen.style.transform = "translateX(100%)"
                 // this.screen.style.backgroundColor = "transparent"
                 this.sound_success.load()
                 this.sound_success.play()
-                // setTimeout(()=>this.screen.style.display = "none",400)
+                this.btn_login.style.transform = "scale(0)"
+                },1010)
                 
             }
             else{
@@ -63,6 +69,7 @@ class Message_music{
                   this.label_message.style.height = "50%";
                   this.label_message.style.alignItems = "center";
                   this.label_message.style.maxHeight = "50%";
+                  this.label_message.style.boxShadow = "0 0 10px #2f2843c0"
                   this.is_maximized = true;
                   this.sound_click.load()
                   this.sound_click.play()
@@ -77,6 +84,7 @@ class Message_music{
             this.label_message.style.width = "90vw";
             // this.label_message.style.bottom = "0";
             this.label_message.style.alignItems = "flex-start";
+            this.label_message.style.boxShadow = "none";
             this.label_message.style.height = "15%";
             this.label_message.style.maxHeight = "15%";
           });    
@@ -95,6 +103,11 @@ class Player{
         this.title = document.getElementById("player_title");
         this.message = document.getElementById("player_message");
         this.is_playing = false;
+        this.limit_time_clicks = 900; // in milliseconds
+        this.ready_to_click = true
+        this.is_changing = false
+        this.min_total_label  = document.getElementById("min_total_label");
+        this.min_actual_label = document.getElementById("min_actual_label");
         this.progress_bar = document.getElementById("player_duration");
         
         this.songs = [
@@ -175,8 +188,6 @@ class Player{
         let play_btn = document.getElementById('btn_play');
         play_btn.addEventListener("touchstart",()=>{
             this.toogle_play()
-            
-
         });
 
         //next button
@@ -192,25 +203,39 @@ class Player{
         });
 
         // end music
-        this.current_audio.addEventListener("ended",()=>this.change_music(1))
+        this.current_audio.addEventListener("ended",()=>{
+            if (this.is_changing == false){
+                this.change_music(1)
+            }
+            else{
+                this.current_audio.currentTime = this.current_audio.duration - 10
+                this.progress_bar.value = this.current_audio.currentTime
+            }
+            
+        })
     
         this.current_audio.addEventListener("timeupdate",()=>this.update_time());
         
         this.progress_bar.addEventListener("input",()=>{
-            var progress = this.progress_bar.value / 100
+            var progress = this.progress_bar.value // 100
             // var duration = this.current_audio.duration
             // console.log(duration)
             // let current_time = (progress / 100) * duration;
-            this.current_audio.currentTime = progress * this.current_audio.duration;
+            this.is_changing = true
+            this.current_audio.currentTime = progress //* this.current_audio.duration;
+            
         })
+        this.progress_bar.addEventListener("touchend",()=>this.is_changing = false)
     }
 
     update_time(){
-        // let duration = this.current_audio.duration
-    
-        let current_time = this.current_audio.currentTime / this.current_audio.duration * 100;
-        // let progress = (current_time / duration) * 100;
-        
+        this.progress_bar.max = this.current_audio.duration
+        this.min_total_label.textContent = `${(this.current_audio.duration/60).toFixed(2)}`.replace(".",":")
+        if (this.min_total_label.textContent == "NaN"){
+            this.min_total_label.textContent = "0:00"
+        }
+        let current_time = this.current_audio.currentTime// this.current_audio.duration * 100;
+        this.min_actual_label.textContent = `${(this.current_audio.currentTime/60).toFixed(2)}`.replace(".",":")        
         this.progress_bar.value = current_time
            
         
@@ -218,18 +243,25 @@ class Player{
     }
 
     toogle_play(){
-        if (this.is_playing){
-            this.pause_music();
-
+        if (this.ready_to_click){
+            if (this.is_playing){
+                this.pause_music();
+    
+            }
+            else{
+                this.play_music();
+            }
+            this.ready_to_click = false
+            setTimeout(()=>this.ready_to_click = true,this.limit_time_clicks)
         }
-        else{
-            this.play_music();
-        }
+        
     }
 
     play_music(){
+        // this.current_audio.load();
         this.current_audio.play();
         this.is_playing = true;
+        
         document.getElementById("btn_play_img").src = "imagenes/iconos/pause.png";
 
     }
@@ -242,17 +274,20 @@ class Player{
     load_music(song){
         this.current_audio.src = song.path;
         this.current_audio.load();
-        // change screen
-        // this.progress_bar.max = this.current_audio.duration
         this.image.src = song.image;
         this.title.textContent = song.title;
-        this.message.textContent = song.message;
+        this.message.textContent = song.message;        
 
     }
     change_music(direction){
-        this.current_music_index =(this.current_music_index + direction +this.songs.length)%this.songs.length
-        this.load_music(this.songs[this.current_music_index])
-        this.play_music()
+        if (this.ready_to_click){
+            this.current_music_index =(this.current_music_index + direction +this.songs.length)%this.songs.length
+            this.load_music(this.songs[this.current_music_index])
+            this.play_music()
+            this.ready_to_click = false
+            setTimeout(()=>this.ready_to_click = true,this.limit_time_clicks)
+        }
+        
     }
 }
 
@@ -277,8 +312,7 @@ class PlayerScreen{
         }
         if (show){
             this.help_message.style.transform = "translateX(0)"
-            this.sound_click.load()
-            this.sound_click.play();            
+                      
         }
         else{
             this.help_message.style.transform = "translateX(-100%)"
@@ -290,11 +324,14 @@ class PlayerScreen{
         // generic initialization
         const generic_labels = document.getElementsByClassName("generic_reciver")
         for (let i = 0; i < generic_labels.length; i++){
-            generic_labels[i].addEventListener("click",()=>this.show_help(false))
+            generic_labels[i].addEventListener("touchstart",()=>this.show_help(false))
         }       
         
         //help
-        this.btn_help.addEventListener("click",()=>this.show_help(true))
+        this.btn_help.addEventListener("touchstart",()=>{this.show_help(true)
+            this.sound_click.load()
+            this.sound_click.play();  
+        })
         
           
     }
@@ -302,9 +339,9 @@ class PlayerScreen{
 
 new PlayerScreen()
 /*
-!PENDIENTES
+    !PENDIENTES!
 
-* agregar un sonido cuando el botón se sacude por la mala keyword
-* agregar un sonido cuando se cambia la pantalla
+// agregar un sonido cuando el botón se sacude por la mala keyword
+? agregar un sonido cuando se cambia la pantalla
 * pensar en otra keyword que no se 'keyword'
 */
