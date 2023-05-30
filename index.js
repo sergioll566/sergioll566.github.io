@@ -118,17 +118,31 @@ class Player{
         
         this.songs = [
             {
-                path:"audios/El Cinturón Gris.mp3",
-                image:"imagenes/El Cinturón Gris.jpg",
-                title:'El Cinturón Gris',
-                message:"mensaje asi es"
-            },
-            {
                 path:"audios/Enamorado tuyo.mp3",
                 image:"imagenes/Enamorado tuyo.jpg",
                 title:'Enamorado tuyo',
-                message:"mensaje asi es"
+                message:`Esta canción la canta un chico el cual quiere ocultar el amor que siente por una persona,
+                no quiere que nadie se entere ya que no sabe como expresar sus sentimientos, trata de ocultarlo 
+                pero el enamoramiento es un sentimiento demasiado fuerte como para hacerlo, lo que mas me hace recordarte al escucharla
+                es que yo estoy enamorado tuyo &#x2764;`
             },
+            {
+                path:"audios/Ataquemos - Cómplice eterno (cover).mp3",
+                image:"imagenes/Ataquemos - Cómplice eterno (cover).jpg",
+                title:'Cómplice eterno',
+                message:`Como aclaración,no me gusta ser explicito, en cualquier sentido.
+                Pero me encanta la idea de ser parte de ti, tu amor platónico (con excepción de que lo nuestro si es posible:>),
+                y ser tu complice para todo &#x2764; como dice el de la canción, tu complice eterno &#x2764;
+                `
+            },
+            
+            {
+                path:"audios/El Cinturón Gris.mp3",
+                image:"imagenes/El Cinturón Gris.jpg",
+                title:'El Cinturón Gris',
+                message:"mensaje numero 1"
+            },
+            
             {
                 path:"audios/Fiesta en lo del Dr. Hermes.mp3",
                 image:"imagenes/Fiesta en lo del Dr. Hermes.jpg",
@@ -148,12 +162,7 @@ class Player{
                 message:"mensaje asi es"
             },
         
-            {
-                path:"audios/Ataquemos - Cómplice eterno (cover).mp3",
-                image:"imagenes/Ataquemos - Cómplice eterno (cover).jpg",
-                title:'Ataquemos - Cómplice eterno (cover)',
-                message:"mensaje asi es"
-            },
+            
         
             {
                 path:"audios/Combo final.mp3",
@@ -173,22 +182,7 @@ class Player{
                 title:'El Rey y el As',
                 message:"mensaje asi es"
             }
-        ]; 
-
-        // this.songs = [
-        //     {
-        //         path:"audios/canciones/enamorado_tuyo.mp3",
-        //         image:"imagenes/Enamorado tuyo.jpg",
-        //         title:'Enamorado tuyo',
-        //         message:"PON UN MENSAJE AQUÍ O TE PEGO >:("
-        //     },
-        //     {
-        //         path:"audios/canciones/algo_con_tigo.mp3",
-        //         image:"imagenes/El Cinturón Gris.jpg",
-        //         title:'El Cinturón Gris',
-        //         message:"mensaje que aun no haz puesto >:( deja de codificar pedazo de sergio >:("
-        //     },
-        // ]
+        ];
         this.play_btn = document.getElementById('btn_play');
         this.next_btn = document.getElementById('btn_next');
         this.prev_btn = document.getElementById('btn_prev');
@@ -329,7 +323,8 @@ class Player{
         this.current_audio.load();
         this.image.src = song.image;
         this.title.textContent = song.title;
-        this.message.textContent = song.message;        
+        document.title = song.title;
+        this.message.innerHTML = song.message;        
 
     }
     change_music(direction){
@@ -408,6 +403,6 @@ new PlayerScreen()
 * proteger a la aplicación de errores al intentar modificar la música (como cambiarla sin haber cargado antes correctamente)
 
     !IDEAS!
-* Agregar sonido al teclear en el login
+// Agregar sonido al teclear en el login
 
 */

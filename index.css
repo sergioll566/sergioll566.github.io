@@ -302,12 +302,6 @@ main{
     filter: drop-shadow(0 0 10px var(--text_color));
     transition: filter 0.1s;
 }
-/* #btn_ayuda:active{
-    transform: scale(0.9);
-} */
-/* #btn_ayuda img:active{
-    filter: drop-shadow(0 0 10px transparent);
-} */
 
 #mensaje_ayuda{
     position: absolute;
@@ -317,7 +311,16 @@ main{
     padding: 10%;
     text-align: center;
     left:0;
-    bottom: -15vh;
+    bottom: -35vh;
+    z-index: 300;
     transform: translateX(-100%);
     transition: transform 0.3s;
+}
+
+#instrucciones{
+    position: absolute;
+    z-index: 250;
+    width: 80vw;
+    right: 0;
+    top: -5%;
 }
