@@ -6,7 +6,7 @@ class LoginScreen{
         this.key_word = "keyword";
         this.sound_erro = new Audio("audios/fondo/error.mp3");
         this.sound_success = new Audio("audios/fondo/d9.mp3");
-        // this.sound_erro.load();
+        this.sound_erro.load();
         this.candado = document.getElementById("candado");
         this.sound_erro.volume = 0.5;
         this.player_screen = document.getElementById("player_screen");
@@ -15,16 +15,18 @@ class LoginScreen{
     }
 
     init_events(){
-        this.btn_login.addEventListener("touchstart",()=>this.change_to_main())
+        this.btn_login.addEventListener("touchend",()=>this.change_to_main())
     }
     validate_login(input){
         return input.value.toLowerCase() == this.key_word.toLowerCase()
     }
     change_to_main(){
             const result = this.validate_login(this.input_login)
+            
             if (result){
                 
                 this.candado.style.animation = "desbloquear_candado 1s linear 0s 1"
+                
                 // setTimeout(()=>this.screen.style.display = "none",400)
                 setTimeout(()=>{
                     this.candado.src = "imagenes/iconos/candado_abierto.png"
@@ -206,18 +208,19 @@ class Player{
         let play_btn = document.getElementById('btn_play');
         play_btn.addEventListener("touchstart",()=>{
             this.toogle_play()
+            
         });
 
         //next button
         let next_btn = document.getElementById('btn_next');
         
         next_btn.addEventListener("touchstart",()=>{this.change_music(1)
-            
+            this.next_btn.style.transform = "scale(0.8)"
         });
         // button prev
         let prev_btn = document.getElementById('btn_prev');
         prev_btn.addEventListener("touchstart",()=>{this.change_music(-1)
-            
+            this.prev_btn.style.transform = "scale(0.8)"
         });
 
         // end music
@@ -272,6 +275,7 @@ class Player{
             else{
                 this.play_music();
             }
+            this.play_btn.style.transform = "scale(0.8)"
             this.ready_to_click = false
             setTimeout(()=>this.ready_to_click = true,this.limit_time_clicks)
         }
@@ -364,5 +368,11 @@ new PlayerScreen()
 
 // agregar un sonido cuando el botón se sacude por la mala keyword
 ? agregar un sonido cuando se cambia la pantalla
-* pensar en otra keyword que no se 'keyword'
+* pensar en otra keyword que no sea 'keyword'
+* agregar las notas y mas música
+* proteger a la aplicación de errores al intentar modificar la música (como cambiarla sin haber cargado antes correctamente)
+
+    !IDEAS!
+* Agregar sonido al teclear en el login
+
 */
