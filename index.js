@@ -17,6 +17,7 @@ class LoginScreen{
     init_events(){
         this.btn_login.addEventListener("touchend",()=>this.change_to_main())
     }
+
     validate_login(input){
         return input.value.toLowerCase() == this.key_word.toLowerCase()
     }
@@ -188,10 +189,13 @@ class Player{
         //         message:"mensaje que aun no haz puesto >:( deja de codificar pedazo de sergio >:("
         //     },
         // ]
-
+        this.play_btn = document.getElementById('btn_play');
+        this.next_btn = document.getElementById('btn_next');
+        this.prev_btn = document.getElementById('btn_prev');
         this.init_events();
         this.load_music(this.songs[0]);
         this.progress_bar.value = 0;
+        
     }
 
     init_events() {
@@ -205,23 +209,47 @@ class Player{
         //   });
 
         // play button
-        let play_btn = document.getElementById('btn_play');
-        play_btn.addEventListener("touchstart",()=>{
+        
+        this.play_btn.addEventListener("touchstart",()=>{
+            if(this.ready_to_click){
+                this.play_btn.style.transform = "scale(0.8)"
+            }
             this.toogle_play()
             
         });
+        this.play_btn.addEventListener("touchend",()=>{
+                    
+                    this.play_btn.style.transform = "scale(1)"
+                });
 
         //next button
-        let next_btn = document.getElementById('btn_next');
         
-        next_btn.addEventListener("touchstart",()=>{this.change_music(1)
-            this.next_btn.style.transform = "scale(0.8)"
+        
+        this.next_btn.addEventListener("touchstart",()=>{
+            if(this.ready_to_click){
+                this.next_btn.style.transform = "scale(0.8)"
+            }
+            this.change_music(1)
+            
+            
         });
+        this.next_btn.addEventListener("touchend",()=>{
+                            
+                            this.next_btn.style.transform = "scale(1)"
+                        });
         // button prev
-        let prev_btn = document.getElementById('btn_prev');
-        prev_btn.addEventListener("touchstart",()=>{this.change_music(-1)
-            this.prev_btn.style.transform = "scale(0.8)"
+        
+        this.prev_btn.addEventListener("touchstart",()=>{
+            if (this.ready_to_click){
+                this.prev_btn.style.transform = "scale(0.8)"
+            }
+            this.change_music(-1)
+            
         });
+        this.prev_btn.addEventListener("touchend",()=>{
+                                    
+                                    this.prev_btn.style.transform = "scale(1)"
+                                });
 
         // end music
         this.current_audio.addEventListener("ended",()=>{
@@ -275,7 +303,7 @@ class Player{
             else{
                 this.play_music();
             }
-            this.play_btn.style.transform = "scale(0.8)"
+            
             this.ready_to_click = false
             setTimeout(()=>this.ready_to_click = true,this.limit_time_clicks)
         }
@@ -355,7 +383,14 @@ class PlayerScreen{
         //help
         this.btn_help.addEventListener("touchstart",()=>{this.show_help(true)
             this.sound_click.load()
-            this.sound_click.play();  
+            this.sound_click.play();
+            this.btn_help.style.transform = "scale(0.9)"
+            this.btn_help.getElementsByTagName("img")[0].style.filter = "drop-shadow(0 0 10px transparent)";
+        })
+        this.btn_help.addEventListener("touchend",()=>{this.show_help(false)
+            this.btn_help.style.transform = "scale(1)"
+            
+            this.btn_help.getElementsByTagName("img")[0].style.filter = "drop-shadow(0 0 10px var(--text_color))";
         })
         
           
