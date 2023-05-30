@@ -387,7 +387,7 @@ class PlayerScreen{
             this.btn_help.style.transform = "scale(0.9)"
             this.btn_help.getElementsByTagName("img")[0].style.filter = "drop-shadow(0 0 10px transparent)";
         })
-        this.btn_help.addEventListener("touchend",()=>{this.show_help(false)
+        this.btn_help.addEventListener("touchend",()=>{
             this.btn_help.style.transform = "scale(1)"
             
             this.btn_help.getElementsByTagName("img")[0].style.filter = "drop-shadow(0 0 10px var(--text_color))";

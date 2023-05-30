@@ -293,15 +293,14 @@ main{
     background-color: transparent;
     border: 0;
     position: absolute;
-    /* background-color: var(--three_color); */
-    transition: 0.1s;
+    transition: transform 0.1s;
 }
 #btn_ayuda img{
     width: 100%;
     height: 100%;
     object-fit: contain;
     filter: drop-shadow(0 0 10px var(--text_color));
-    transition: 0.1s;
+    transition: filter 0.1s;
 }
 /* #btn_ayuda:active{
     transform: scale(0.9);
