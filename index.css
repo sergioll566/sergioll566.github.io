@@ -218,12 +218,8 @@ main{
     bottom: 18%;
     width: 90vw;
     height: 15vh;
-    /* display: none; */
-
-    /* position: absolute;
-
-    width: 90%;
-    height: 50%; */
+    border: 2px solid #2f28431a;
+    /* display: none;  */
 }
 #player_duration_content{
     display: flex;
@@ -239,10 +235,8 @@ main{
 #player_duration{
     width: 80%;
     margin-bottom: 3%;
-    /* z-index: 100; */
     height: 10%;
     background-color: #463B62;
-    
 }
 
 #player_controls{
@@ -323,4 +317,11 @@ main{
     width: 80vw;
     right: 0;
     top: -5%;
+}
+#mns_ayuda{
+    z-index: 300;
+    position: absolute;
+    bottom: 15%;
+    font-size: 0.9rem;
+    text-transform: capitalize;
 }

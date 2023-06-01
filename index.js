@@ -50,7 +50,7 @@ class LoginScreen{
             }
     }
 }
-new LoginScreen()
+const morquecho = new LoginScreen()
 
 
 class Message_music{
@@ -101,9 +101,7 @@ class Message_music{
 
 class Player{
     constructor(){
-        // this.current_audio = new Audio();
         this.current_audio = document.getElementById("musica");
-        //this.current_audio.duration
         this.current_music_index = 0;
         this.image = document.getElementById("player_img");
         this.title = document.getElementById("player_title");
@@ -115,7 +113,6 @@ class Player{
         this.min_total_label  = document.getElementById("min_total_label");
         this.min_actual_label = document.getElementById("min_actual_label");
         this.progress_bar = document.getElementById("player_duration");
-        
         this.songs = [
             {
                 path:"audios/Enamorado tuyo.mp3",
@@ -161,9 +158,6 @@ class Player{
                 title:'Waiting For Love [blank]',
                 message:"mensaje asi es"
             },
-        
-            
-        
             {
                 path:"audios/Combo final.mp3",
                 image:"imagenes/Combo final.jpg",
@@ -174,7 +168,12 @@ class Player{
                 path:"audios/Balada Conformista.mp3",
                 image:"imagenes/Balada Conformista.jpg",
                 title:'Balada Conformista',
-                message:"mensaje asi es"
+                message:`loasdjbajidbasjdbajdbasjikdbasljkdbaskj;dbasdjbakdjbasskdjbakdjbaskhjdbaukdbasjdbaskjdbakjsdbakjsdbaksjdbakjdbsauikdhisaudvbasjkhdvbgasjhdgbasjlhdgasldghj
+                loasdjbajidbasjdbajdbasjikdbasljkdbaskj;dbasdjbakdjbasskdjbakdjbaskhjdbaukdbasjdbaskjdbakjsdbakjsdbaksjdbakjdbsauikdhisaudvbasjkhdvbgasjhdgbasjlhdgasldghj
+                loasdjbajidbasjdbajdbasjikdbasljkdbaskj;dbasdjbakdjbasskdjbakdjbaskhjdbaukdbasjdbaskjdbakjsdbakjsdbaksjdbakjdbsauikdhisaudvbasjkhdvbgasjhdgbasjlhdgasldghj
+                loasdjbajidbasjdbajdbasjikdbasljkdbaskj;dbasdjbakdjbasskdjbakdjbaskhjdbaukdbasjdbaskjdbakjsdbakjsdbaksjdbakjdbsauikdhisaudvbasjkhdvbgasjhdgbasjlhdgasldghj
+                loasdjbajidbasjdbajdbasjikdbasljkdbaskj;dbasdjbakdjbasskdjbakdjbaskhjdbaukdbasjdbaskjdbakjsdbakjsdbaksjdbakjdbsauikdhisaudvbasjkhdvbgasjhdgbasjlhdgasldghj
+                loasdjbajidbasjdbajdbasjikdbasljkdbaskj;dbasdjbakdjbasskdjbakdjbaskhjdbaukdbasjdbaskjdbakjsdbakjsdbaksjdbakjdbsauikdhisaudvbasjkhdvbgasjhdgbasjlhdgasldghj`
             },
             {
                 path:"audios/El Rey y el As.mp3",
@@ -187,23 +186,13 @@ class Player{
         this.next_btn = document.getElementById('btn_next');
         this.prev_btn = document.getElementById('btn_prev');
         this.init_events();
-        this.load_music(this.songs[0]);
+        this.load_music(this.songs[this.current_music_index]);
         this.progress_bar.value = 0;
         
     }
 
     init_events() {
-        //! touch move
-        // document.addEventListener('touchmove', function(event) {
-        //     event.preventDefault();
-        //   }, { passive: false });
-
-        //   document.getElementById("player_duration").addEventListener('touchmove', function(event) {
-            
-        //   });
-
-        // play button
-        
+        // play btn
         this.play_btn.addEventListener("touchstart",()=>{
             if(this.ready_to_click){
                 this.play_btn.style.transform = "scale(0.8)"
@@ -217,8 +206,6 @@ class Player{
                 });
 
         //next button
-        
-        
         this.next_btn.addEventListener("touchstart",()=>{
             if(this.ready_to_click){
                 this.next_btn.style.transform = "scale(0.8)"
@@ -259,41 +246,38 @@ class Player{
     
         this.current_audio.addEventListener("timeupdate",()=>this.update_time());
         this.current_audio.addEventListener("loadeddata",()=>{
-            this.min_total_label.textContent = `${(this.current_audio.duration/60).toFixed(2)}`.replace(".",":")
+            const duration = this.current_audio.duration;
+            const formatTime = (time)=> String(Math.floor(time)).padStart(2,'0');
+            this.min_total_label.textContent = `${formatTime(duration/60)}:${formatTime(duration%60)}`;
             if (this.min_total_label.textContent == "NaN"){
-                this.min_total_label.textContent = "0:00"
-        }
+                this.min_total_label.textContent = "0:00";
+            }
+            this.progress_bar.max = this.current_audio.duration;
+            this.ready_to_click = true;
         });
         
         this.progress_bar.addEventListener("input",()=>{
-            var progress = this.progress_bar.value // 100
-            // var duration = this.current_audio.duration
-            // console.log(duration)
-            // let current_time = (progress / 100) * duration;
-            this.is_changing = true
-            this.current_audio.currentTime = progress //* this.current_audio.duration;
+            this.is_changing = true;
+            this.current_audio.currentTime = this.progress_bar.value;
             
         })
-        this.progress_bar.addEventListener("touchend",()=>this.is_changing = false)
+        this.progress_bar.addEventListener("touchend",()=>this.is_changing = false);
     }
 
     update_time(){
-        this.progress_bar.max = this.current_audio.duration
-        
-        let current_time = this.current_audio.currentTime// this.current_audio.duration * 100;
-        this.min_actual_label.textContent = `${(this.current_audio.currentTime/60).toFixed(2)}`.replace(".",":")        
+        // this.progress_bar.max = this.current_audio.duration
+        const formatTime = (time)=> String(Math.floor(time)).padStart(2,'0');
+        const current_time = this.current_audio.currentTime
+        this.min_actual_label.textContent = `${formatTime(current_time/60)}:${formatTime(current_time%60)}`;
         this.progress_bar.value = current_time
-           
-        
-        
     }
 
     toogle_play(){
         if (this.ready_to_click){
             if (this.is_playing){
                 this.pause_music();
-    
             }
+
             else{
                 this.play_music();
             }
@@ -301,17 +285,15 @@ class Player{
             this.ready_to_click = false
             setTimeout(()=>this.ready_to_click = true,this.limit_time_clicks)
         }
-        
     }
 
     play_music(){
-        // this.current_audio.load();
         this.current_audio.play();
         this.is_playing = true;
-        
         document.getElementById("btn_play_img").src = "imagenes/iconos/pause.png";
 
     }
+
     pause_music(){
         this.current_audio.pause();
         this.is_playing = false;
@@ -319,24 +301,27 @@ class Player{
     }
 
     load_music(song){
+        this.ready_to_click = false;
         this.current_audio.src = song.path;
         this.current_audio.load();
         this.image.src = song.image;
         this.title.textContent = song.title;
         document.title = song.title;
-        this.message.innerHTML = song.message;        
+        this.message.innerHTML = song.message;
 
     }
+
     change_music(direction){
         if (this.ready_to_click){
-            this.current_music_index =(this.current_music_index + direction +this.songs.length)%this.songs.length
+            this.current_music_index = (this.current_music_index + direction +this.songs.length)%this.songs.length
             this.load_music(this.songs[this.current_music_index])
             this.play_music()
             this.ready_to_click = false
             setTimeout(()=>this.ready_to_click = true,this.limit_time_clicks)
         }
-        
+
     }
+
 }
 
 class PlayerScreen{
@@ -347,7 +332,7 @@ class PlayerScreen{
         this.player_message = new Message_music();
         this.player = new Player();
         // console.log(this.btn_help)
-        this.sound_click = new Audio("audios/fondo/click2.mp3");
+        this.sound_click = new Audio("audios/fondo/click.mp3");
         this.sound_click.volume = 0.3;
         this.init_events();
     }
@@ -392,15 +377,15 @@ class PlayerScreen{
     }
 }
 
-new PlayerScreen()
+const torres = new PlayerScreen()
 /*
     !PENDIENTES!
 
 // agregar un sonido cuando el botón se sacude por la mala keyword
 ? agregar un sonido cuando se cambia la pantalla
 * pensar en otra keyword que no sea 'keyword'
-* agregar las notas y mas música
-* proteger a la aplicación de errores al intentar modificar la música (como cambiarla sin haber cargado antes correctamente)
+? agregar las notas y mas música
+// proteger a la aplicación de errores al intentar modificar la música (como cambiarla sin haber cargado antes correctamente)
 
     !IDEAS!
 // Agregar sonido al teclear en el login
